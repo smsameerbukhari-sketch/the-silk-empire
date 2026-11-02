@@ -542,14 +542,7 @@
     <!-- ============================================== -->
     <script>
         // --- 1. Product Catalog Database ---
-        const PRODUCTS = [
-            { id: 'se-101', title: 'Palace Signature Black Tee', category: 'Shirts', price: 3499, img: 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=600&q=80', badge: 'HOT' },
-            { id: 'se-102', title: 'Royal Gold Silk Embroidered Kurta', category: 'Ethnic', price: 8999, img: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=600&q=80', badge: 'NEW' },
-            { id: 'se-103', title: 'Midnight Velvet Oversized Hoodie', category: 'Streetwear', price: 6499, img: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=600&q=80', badge: 'LUXURY' },
-            { id: 'se-104', title: 'Empire Monogram Silk Button Up', category: 'Shirts', price: 4999, img: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=600&q=80', badge: 'POPULAR' },
-            { id: 'se-105', title: 'Sultan Hand-Stitched Sherwani Jacket', category: 'Ethnic', price: 14999, img: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80', badge: 'LIMITED' },
-            { id: 'se-106', title: 'Golden Crest Cargo Sweatpants', category: 'Streetwear', price: 4299, img: 'https://images.unsplash.com/photo-1552902865-b72c031ac5ea?auto=format&fit=crop&w=600&q=80', badge: 'ESSENTIAL' }
-        ];
+        let PRODUCTS = [];
 
         // --- 2. Global State ---
         let cart = [];
@@ -557,6 +550,8 @@
         let currentCategory = 'All';
         let db = null;
         let useFallbackState = true;
+        let productsLoading = true;
+        let productsLoadError = false;
 
         // --- 3. Initial Firebase & State Initialization ---
         window.addEventListener('DOMContentLoaded', () => {
@@ -567,35 +562,70 @@
 
         function initFirebase() {
             try {
-                // If firebase config standard is present in environment
-                if (typeof __firebase_config !== 'undefined' && __firebase_config) {
-                    const firebaseConfig = JSON.parse(__firebase_config);
-                    firebase.initializeApp(firebaseConfig);
-                    db = firebase.firestore();
-                    useFallbackState = false;
-                    console.log("Firebase initialized successfully.");
+                const firebaseConfig = {
+                    apiKey: "AIzaSyBChoh6pml63_-cB3jpeLHG5OxjB6jtxHc",
+                    authDomain: "the-silk-empire.firebaseapp.com",
+                    projectId: "the-silk-empire",
+                    storageBucket: "the-silk-empire.firebasestorage.app",
+                    messagingSenderId: "990023610065",
+                    appId: "1:990023610065:web:c4ac6368716b8187305ff0",
+                    measurementId: "G-7FK171Q0B7"
+                };
+                if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+                db = firebase.firestore();
+                useFallbackState = false;
+                console.log("Firebase initialized successfully.");
 
-                    // Listen to Firestore real-time updates
-                    const appId = typeof __app_id !== 'undefined' ? __app_id : 'silk-empire-default';
-                    db.collection('artifacts').doc(appId).collection('public').doc('data').collection('orders')
-                        .onSnapshot((snapshot) => {
-                            orders = [];
-                            snapshot.forEach((doc) => {
-                                orders.push({ id: doc.id, ...doc.data() });
-                            });
-                            // Sort newest first
-                            orders.sort((a, b) => b.createdAt - a.createdAt);
-                            renderAdminOrdersTable();
-                            updateAnalyticsOverview();
-                        }, (err) => {
-                            console.warn("Firestore listener error, switching to fallback memory state:", err);
-                            enableFallbackOrders();
+                db.collection('products').onSnapshot((snapshot) => {
+                    PRODUCTS = [...snapshot.docs]
+                        .sort((a, b) => {
+                            const aTime = a.data().createdAt?.toMillis?.() || 0;
+                            const bTime = b.data().createdAt?.toMillis?.() || 0;
+                            return bTime - aTime;
+                        })
+                        .map((productDoc) => {
+                            const data = productDoc.data();
+                            const price = Number(data.price);
+                            return {
+                                id: productDoc.id,
+                                title: typeof data.title === 'string' ? data.title : '',
+                                category: typeof data.category === 'string' ? data.category : 'Collection',
+                                price,
+                                img: typeof data.imageUrl === 'string' ? data.imageUrl : data.img,
+                                badge: typeof data.badge === 'string' ? data.badge : 'NEW'
+                            };
+                        })
+                        .filter((product) => product.title && product.img && Number.isFinite(product.price) && product.price >= 0);
+                    productsLoading = false;
+                    productsLoadError = false;
+                    renderProducts();
+                }, (error) => {
+                    console.error("Could not load products from Firestore:", error);
+                    productsLoading = false;
+                    productsLoadError = true;
+                    renderProducts();
+                });
+
+                // Listen to shared Firestore order updates.
+                const appId = typeof __app_id !== 'undefined' ? __app_id : 'silk-empire-default';
+                db.collection('artifacts').doc(appId).collection('public').doc('data').collection('orders')
+                    .onSnapshot((snapshot) => {
+                        orders = [];
+                        snapshot.forEach((doc) => {
+                            orders.push({ id: doc.id, ...doc.data() });
                         });
-                } else {
-                    enableFallbackOrders();
-                }
+                        orders.sort((a, b) => b.createdAt - a.createdAt);
+                        renderAdminOrdersTable();
+                        updateAnalyticsOverview();
+                    }, (err) => {
+                        console.warn("Firestore order listener error, switching to fallback memory state:", err);
+                        enableFallbackOrders();
+                    });
             } catch (e) {
-                console.warn("Firebase setup failed, using memory state:", e);
+                console.error("Firebase setup failed:", e);
+                productsLoading = false;
+                productsLoadError = true;
+                renderProducts();
                 enableFallbackOrders();
             }
         }
@@ -636,40 +666,79 @@
         // --- 4. Storefront Product Grid Logic ---
         function renderProducts() {
             const container = document.getElementById('products-container');
+            if (productsLoading || productsLoadError) {
+                container.textContent = productsLoading ? 'Loading products…' : 'Products could not be loaded. Please try again later.';
+                container.classList.add('col-span-full', 'text-center', 'text-sm', 'text-gray-400');
+                document.getElementById('displayed-products-count').innerText = '0';
+                return;
+            }
+            container.classList.remove('col-span-full', 'text-center', 'text-sm', 'text-gray-400');
             const filtered = currentCategory === 'All'
                 ? PRODUCTS
                 : PRODUCTS.filter(p => p.category === currentCategory);
 
             document.getElementById('displayed-products-count').innerText = filtered.length;
 
-            container.innerHTML = filtered.map(product => `
-                <div class="product-card glass-card rounded-2xl overflow-hidden flex flex-col justify-between p-4 group">
-                    <div class="relative overflow-hidden rounded-xl mb-4 bg-black/40 aspect-square">
-                        <img src="${product.img}" alt="${product.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                        <span class="absolute top-3 left-3 bg-empire-gold text-empire-black font-bold text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wider">
-                            ${product.badge}
-                        </span>
-                    </div>
+            if (filtered.length === 0) {
+                container.textContent = PRODUCTS.length === 0 ? 'No products are available yet.' : 'No products in this collection yet.';
+                container.classList.add('col-span-full', 'text-center', 'text-sm', 'text-gray-400');
+                return;
+            }
 
-                    <div class="space-y-2 flex-grow flex flex-col justify-between">
-                        <div>
-                            <span class="text-[11px] text-empire-gold uppercase tracking-widest font-semibold">${product.category}</span>
-                            <h3 class="font-cinzel text-base font-bold text-white group-hover:text-empire-lightGold transition">${product.title}</h3>
-                        </div>
+            const fragment = document.createDocumentFragment();
+            filtered.forEach((product) => {
+                const card = document.createElement('div');
+                card.className = 'product-card glass-card rounded-2xl overflow-hidden flex flex-col justify-between p-4 group';
 
-                        <div class="pt-2 flex items-center justify-between border-t border-empire-gold/15">
-                            <div>
-                                <span class="text-[10px] text-gray-400 block">Price</span>
-                                <span class="price text-sm font-bold text-empire-lightGold font-cinzel">PKR ${product.price.toLocaleString()}</span>
-                            </div>
-                            <button onclick="addToCart('${product.id}')" class="add-to-cart gold-button px-3.5 py-2 rounded-lg text-xs flex items-center space-x-1">
-                                <i class="fa-solid fa-plus text-[10px]"></i>
-                                <span>Add to Cart</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
+                const imageWrapper = document.createElement('div');
+                imageWrapper.className = 'relative overflow-hidden rounded-xl mb-4 bg-black/40 aspect-square';
+                const image = document.createElement('img');
+                image.src = product.img;
+                image.alt = product.title;
+                image.loading = 'lazy';
+                image.className = 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-500';
+                const badge = document.createElement('span');
+                badge.className = 'absolute top-3 left-3 bg-empire-gold text-empire-black font-bold text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wider';
+                badge.textContent = product.badge;
+                imageWrapper.append(image, badge);
+
+                const details = document.createElement('div');
+                details.className = 'space-y-2 flex-grow flex flex-col justify-between';
+                const copy = document.createElement('div');
+                const category = document.createElement('span');
+                category.className = 'text-[11px] text-empire-gold uppercase tracking-widest font-semibold';
+                category.textContent = product.category;
+                const title = document.createElement('h3');
+                title.className = 'font-cinzel text-base font-bold text-white group-hover:text-empire-lightGold transition';
+                title.textContent = product.title;
+                copy.append(category, title);
+
+                const purchase = document.createElement('div');
+                purchase.className = 'pt-2 flex items-center justify-between border-t border-empire-gold/15';
+                const priceCopy = document.createElement('div');
+                const priceLabel = document.createElement('span');
+                priceLabel.className = 'text-[10px] text-gray-400 block';
+                priceLabel.textContent = 'Price';
+                const price = document.createElement('span');
+                price.className = 'price text-sm font-bold text-empire-lightGold font-cinzel';
+                price.textContent = `PKR ${product.price.toLocaleString()}`;
+                priceCopy.append(priceLabel, price);
+
+                const addButton = document.createElement('button');
+                addButton.className = 'add-to-cart gold-button px-3.5 py-2 rounded-lg text-xs flex items-center space-x-1';
+                addButton.type = 'button';
+                addButton.addEventListener('click', () => addToCart(product.id));
+                const addIcon = document.createElement('i');
+                addIcon.className = 'fa-solid fa-plus text-[10px]';
+                const addLabel = document.createElement('span');
+                addLabel.textContent = 'Add to Cart';
+                addButton.append(addIcon, addLabel);
+                purchase.append(priceCopy, addButton);
+                details.append(copy, purchase);
+                card.append(imageWrapper, details);
+                fragment.append(card);
+            });
+            container.replaceChildren(fragment);
         }
 
         function filterProducts(cat) {
