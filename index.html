@@ -1,135 +1,1065 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <!-- 1. Basic SEO & Canonical -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Silk Empire - Official Store</title>
-    <meta name="description" content="Discover The Silk Empire - Luxury handcrafted silk threads, modern Islamic silhouettes, and timeless aesthetic tailored for distinction.">
-    <meta name="keywords" content="The Silk Empire, Luxury Silk, Islamic Fashion, Winter Royalty Collection, Designer Wear, Pakistani Fashion, Menswear">
+    <title>The Silk Empire | Luxury Apparel & Admin Management</title>
+
+
+    <!-- ================= SEO & META TAGS ================= -->
+    <meta name="google-site-verification" content="m-e-gYaAqepTcbV_h3e4t60DP8HCvQsR398bqrIZ-zw" />
+    <meta name="description" content="Discover exquisite luxury apparel, handcrafted silk threads, and modern Islamic silhouettes at The Silk Empire.">
+    <meta name="keywords" content="The Silk Empire, Luxury Apparel, Silk Shirts, Royal Streetwear, Ethnic Outerwear, Pakistani Fashion">
     <meta name="author" content="The Silk Empire">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://the-silk-empire.netlify.app/">
 
-    <!-- 2. Open Graph Tags (Facebook, Instagram, WhatsApp, LinkedIn) -->
-    <meta property="og:site_name" content="The Silk Empire">
-    <meta property="og:title" content="The Silk Empire - Official Store">
-    <meta property="og:description" content="Handcrafted silk threads, modern Islamic silhouettes, and timeless aesthetic tailored for those who command distinction.">
+    <!-- Canonical Link (Duplicate content se bachne ke liye) -->
+    <link rel="canonical" href="https://thesilkempire.com/">
+
+    <!-- ================= OPEN GRAPH (WhatsApp, Facebook, LinkedIn Sharing) ================= -->
+    <meta property="og:title" content="The Silk Empire | Luxury Apparel & Exclusive Couture">
+    <meta property="og:description" content="Handcrafted silk threads, modern Islamic silhouette designs, and timeless aesthetic tailored for those who command distinction.">
+    <meta property="og:image" content="https://thesilkempire.com/banner-preview.jpg"> <!-- Yahan apni website ki banner image ka link dein -->
+    <meta property="og:url" content="https://thesilkempire.com/">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://the-silk-empire.netlify.app/">
-    <meta property="og:image" content="https://the-silk-empire.netlify.app/og-image.jpg">
-    <meta property="og:image:secure_url" content="https://the-silk-empire.netlify.app/og-image.jpg">
-    <meta property="og:image:type" content="image/jpeg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="The Silk Empire Banner">
-    <meta property="og:locale" content="en_US">
 
-    <!-- 3. Twitter / X Meta Tags -->
+    <!-- ================= TWITTER CARD TAGS ================= -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@TheSilkEmpire">
-    <meta name="twitter:creator" content="@TheSilkEmpire">
-    <meta name="twitter:title" content="The Silk Empire - Official Store">
-    <meta name="twitter:description" content="Handcrafted silk threads, modern Islamic silhouettes, and timeless aesthetic tailored for distinction.">
-    <meta name="twitter:image" content="https://the-silk-empire.netlify.app/og-image.jpg">
-    <meta name="twitter:image:alt" content="The Silk Empire Banner">
+    <meta name="twitter:title" content="The Silk Empire | Luxury Apparel">
+    <meta name="twitter:description" content="Handcrafted silk threads and modern Islamic silhouette designs.">
+    <meta name="twitter:image" content="https://thesilkempire.com/banner-preview.jpg">
+    <link rel="stylesheet" href="style.css">
 
-    <!-- 4. Pinterest & Mobile Theme Branding -->
-    <meta name="pinterest-rich-pin" content="true">
-    <meta name="theme-color" content="#1b1b1b">
-    <meta name="apple-mobile-web-app-title" content="The Silk Empire">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-    <title>The Silk Empire - Checkout</title>
-    <style>
-        :root {
-            font-family: Inter, system-ui, sans-serif;
-            color: #1b1b1b;
-            background: #f5f4f1;
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        empire: {
+                            black: '#0a0a0c',
+                            card: '#121216',
+                            glass: 'rgba(18, 18, 22, 0.75)',
+                            gold: '#BF953F',
+                            lightGold: '#FCF6BA',
+                            darkGold: '#AA771C',
+                            accent: '#B38728'
+                        }
+                    },
+                    boxShadow: {
+                        goldGlow: '0 0 25px rgba(191, 149, 63, 0.25)',
+                        innerGold: 'inset 0 0 15px rgba(191, 149, 63, 0.15)'
+                    }
+                }
+            }
         }
-        body { margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .checkout-card { background: #fff; width: 100%; max-width: 480px; padding: 32px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); border: 1px solid #e6e3dd; }
-        h1 { font-family: Georgia, serif; font-size: 1.75rem; margin-top: 0; margin-bottom: 24px; text-align: center; }
-        .field { margin-bottom: 16px; display: grid; gap: 6px; }
-        label { font-size: 0.85rem; font-weight: 600; }
-        input { width: 100%; padding: 12px; border: 1px solid #d8d5cf; border-radius: 8px; outline: none; font: inherit; }
-        input:focus { border-color: #1b1b1b; box-shadow: 0 0 0 3px rgba(27,27,27,0.1); }
-        .btn { width: 100%; padding: 12px; background: #1b1b1b; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 10px; }
-        .btn:hover { background: #39352e; }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Firebase SDK (Modular compatibility setup) -->
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore-compat.js"></script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0a0a0c;
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
+        .font-cinzel { font-family: 'Cinzel', serif; }
+        .font-urdu { font-family: 'Noto Nastaliq Urdu', serif; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0a0c; }
+        ::-webkit-scrollbar-thumb { background: #BF953F; border-radius: 4px; }
+
+        /* Glassmorphic Effects */
+        .glass-panel {
+            background: rgba(18, 18, 22, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(191, 149, 63, 0.2);
+        }
+        .glass-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(191, 149, 63, 0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(191, 149, 63, 0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px -10px rgba(191, 149, 63, 0.3);
+        }
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #BF953F 0%, #FCF6BA 50%, #AA771C 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gold-button {
+            background: linear-gradient(135deg, #BF953F 0%, #AA771C 100%);
+            color: #0a0a0c;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+        .gold-button:hover {
+            background: linear-gradient(135deg, #FCF6BA 0%, #BF953F 100%);
+            box-shadow: 0 0 20px rgba(191, 149, 63, 0.4);
+        }
     </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col justify-between selection:bg-empire-gold selection:text-black">
 
-    <div class="checkout-card">
-        <h1>The Silk Empire</h1>
-        <form id="checkoutForm" onsubmit="handleCheckoutSubmit(event)">
-            <div class="field">
-                <label for="fullName">Full Name</label>
-                <input type="text" id="fullName" required placeholder="Apna naam likhein">
+    <!-- TOP NAVIGATION BAR -->
+    <header class="sticky top-0 z-40 glass-panel border-b border-empire-gold/20 px-4 lg:px-8 py-3 transition-all duration-300">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+
+            <!-- Logo & Brand Name -->
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('storefront')">
+                <div class="w-10 h-10 rounded-full border border-empire-gold/50 flex items-center justify-center bg-empire-card shadow-goldGlow">
+                    <i class="fa-solid font-cinzel text-empire-gold text-lg">SE</i>
+                </div>
+                <div>
+                    <h1 class="font-cinzel text-lg lg:text-xl font-bold tracking-widest gold-gradient-text uppercase">The Silk Empire</h1>
+                    <p class="font-urdu text-xs text-empire-gold/80 -mt-1 leading-none">دی سلک ایمپائر</p>
+                </div>
             </div>
-            <div class="field">
-                <label for="phone">Phone Number</label>
-                <input type="text" id="phone" required placeholder="03XXXXXXXXX">
+
+            <!-- View Switcher & Action Buttons -->
+            <div class="flex items-center space-x-3 lg:space-x-6">
+                <!-- Navigation Tabs -->
+                <nav class="flex bg-black/40 p-1 rounded-lg border border-empire-gold/20 text-xs sm:text-sm">
+                    <button id="tab-storefront-btn" onclick="switchTab('storefront')" class="px-3 sm:px-4 py-1.5 rounded-md font-semibold transition-all duration-300 bg-empire-gold text-empire-black shadow-md">
+                        <i class="fa-solid font-store mr-1.5"></i>Store
+                    </button>
+                    <button id="tab-admin-btn" onclick="switchTab('admin')" class="px-3 sm:px-4 py-1.5 rounded-md font-semibold text-gray-400 hover:text-empire-gold transition-all duration-300">
+                        <i class="fa-solid fa-chart-line mr-1.5"></i>Admin Portal
+                    </button>
+                </nav>
+
+                <!-- Cart Button (Storefront View) -->
+                <button onclick="toggleCartDrawer(true)" id="header-cart-btn" class="relative p-2.5 rounded-full border border-empire-gold/30 hover:border-empire-gold text-empire-gold hover:bg-empire-gold/10 transition">
+                    <i class="fa-solid fa-bag-shopping text-lg"></i>
+                    <span id="cart-badge-count" class="absolute -top-1.5 -right-1.5 bg-empire-gold text-empire-black font-bold text-xs w-5 h-5 rounded-full flex items-center justify-center shadow-md">0</span>
+                </button>
             </div>
-            <div class="field">
-                <label for="city">City</label>
-                <input type="text" id="city" required placeholder="Karachi">
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 lg:px-8 py-6">
+
+        <!-- ============================================== -->
+        <!-- 1. CUSTOMER STOREFRONT VIEW                    -->
+        <!-- ============================================== -->
+        <section id="view-storefront" class="space-y-8">
+
+            <!-- Hero Banner -->
+            <div class="relative rounded-2xl overflow-hidden border border-empire-gold/30 glass-panel p-8 lg:p-12 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="max-w-xl space-y-4">
+                    <span class="px-3 py-1 text-xs uppercase tracking-widest font-semibold border border-empire-gold/40 text-empire-lightGold rounded-full bg-empire-gold/10">Winter Royalty Collection '26</span>
+                    <h2 class="font-cinzel text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight">
+                        Where Quality Meets <span class="gold-gradient-text">Elegance</span>
+                    </h2>
+                    <p class="text-gray-300 text-sm sm:text-base leading-relaxed">
+                        Handcrafted silk threads, modern Islamic silhouette designs, and timeless aesthetic tailored for those who command distinction.
+                    </p>
+                    <div class="pt-2 flex flex-wrap gap-4 justify-center md:justify-start">
+                        <a href="#products-grid-section" class="gold-button px-6 py-3 rounded-lg text-sm tracking-wider uppercase inline-flex items-center">
+                            Explore Catalog <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/3 flex justify-center">
+
+                    <div class="w-48 h-48 lg:w-64 lg:h-64 rounded-full border-2 border-empire-gold/40 p-2 relative shadow-goldGlow animate-pulse">
+
+
+                        <!-- profile pic he ye  -->
+
+<img src="Gemini_Generated_Image_dx7lrtdx7lrtdx7l.jpg" alt="Logo" class="w-full h-full object-cover rounded-full transition-transform duration-1000 hover:rotate-[360deg]">
+
+</div>
+                </div>
             </div>
-            <div class="field">
-                <label for="address">Delivery Address</label>
-                <input type="text" id="address" required placeholder="Poora pata likhein">
+
+
+<div class="flex justify-center my-8">
+  <div class="w-full max-w-2xl rounded-[28px] overflow-hidden border-[3px] border-empire-gold/60 shadow-[0_0_20px_rgba(212,175,55,0.2)]">
+    <video
+      src="WhatsApp Video 2026-10-30 at 10.23.10 AM.mp4"
+      class="w-full h-[400px] object-cover"
+      controls
+      autoplay
+      muted
+      loop
+      playsinline>
+    </video>
+  </div>
+</div>
+
+  </div>
+
+
+            <!-- Category Filters & Search -->
+            <div id="products-grid-section" class="flex flex-col sm:flex-row justify-between items-center gap-4 border-b border-empire-gold/20 pb-4">
+                <!-- Filters -->
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="filterProducts('All')" class="category-btn active px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold border border-empire-gold text-empire-black bg-empire-gold transition-all">All Collections</button>
+                    <button onclick="filterProducts('Shirts')" class="category-btn px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold border border-empire-gold/30 text-gray-300 hover:border-empire-gold transition-all">Silk Shirts</button>
+                    <button onclick="filterProducts('Streetwear')" class="category-btn px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold border border-empire-gold/30 text-gray-300 hover:border-empire-gold transition-all">Royal Streetwear</button>
+                    <button onclick="filterProducts('Ethnic')" class="category-btn px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold border border-empire-gold/30 text-gray-300 hover:border-empire-gold transition-all">Ethnic Outerwear</button>
+                </div>
+
+                <!-- Product Count & Info -->
+                <div class="text-xs text-gray-400 font-cinzel">
+                    Showing <span id="displayed-products-count" class="text-empire-gold font-bold">0</span> Curated Pieces
+                </div>
             </div>
-            <button type="submit" class="btn">Place Order</button>
-        </form>
+
+            <!-- Product Grid -->
+            <div id="products-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Dynamic products rendered via JS -->
+            </div>
+        </section>
+
+
+        <!-- ============================================== -->
+        <!-- 2. ADMIN MANAGEMENT PORTAL VIEW               -->
+        <!-- ============================================== -->
+        <section id="view-admin" class="hidden space-y-8">
+
+            <!-- Dashboard Header -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-empire-card border border-empire-gold/30 p-6 rounded-2xl glass-panel">
+                <div>
+                    <span class="text-xs text-empire-gold uppercase tracking-widest font-semibold">Empire Management Console</span>
+                    <h2 class="font-cinzel text-2xl lg:text-3xl font-bold text-white">Live Operations Dashboard</h2>
+                </div>
+                <div class="flex items-center space-x-3 text-xs">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 mr-2 animate-ping"></span> Real-time Firebase Sync Active
+                    </span>
+                    <button onclick="seedSampleOrders()" class="px-3 py-1.5 rounded bg-empire-gold/10 hover:bg-empire-gold/20 text-empire-lightGold border border-empire-gold/40 transition">
+                        <i class="fa-solid fa-database mr-1"></i> Add Test Orders
+                    </button>
+                </div>
+            </div>
+
+            <!-- Analytics Overview Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                <!-- Card 1: Total Revenue -->
+                <div class="glass-card p-5 rounded-xl space-y-2 border-l-4 border-l-empire-gold">
+                    <div class="flex justify-between items-center text-gray-400 text-xs">
+                        <span>Total Revenue</span>
+                        <i class="fa-solid fa-coins text-empire-gold text-base"></i>
+                    </div>
+                    <div id="stat-total-revenue" class="text-xl font-bold text-white font-cinzel">PKR 0</div>
+                    <p class="text-[10px] text-gray-400">Gross completed sales</p>
+                </div>
+
+                <!-- Card 2: Total Orders -->
+                <div class="glass-card p-5 rounded-xl space-y-2 border-l-4 border-l-blue-500">
+                    <div class="flex justify-between items-center text-gray-400 text-xs">
+                        <span>Total Orders</span>
+                        <i class="fa-solid fa-boxes-packing text-blue-400 text-base"></i>
+                    </div>
+                    <div id="stat-total-orders" class="text-xl font-bold text-white font-cinzel">0</div>
+                    <p class="text-[10px] text-gray-400">All customer bookings</p>
+                </div>
+
+                <!-- Card 3: Active Processing -->
+                <div class="glass-card p-5 rounded-xl space-y-2 border-l-4 border-l-amber-500">
+                    <div class="flex justify-between items-center text-gray-400 text-xs">
+                        <span>Active Orders</span>
+                        <i class="fa-solid fa-truck-fast text-amber-400 text-base"></i>
+                    </div>
+                    <div id="stat-active-orders" class="text-xl font-bold text-white font-cinzel">0</div>
+                    <p class="text-[10px] text-gray-400">Pending, Packed, Dispatched</p>
+                </div>
+
+                <!-- Card 4: Delivered -->
+                <div class="glass-card p-5 rounded-xl space-y-2 border-l-4 border-l-emerald-500">
+                    <div class="flex justify-between items-center text-gray-400 text-xs">
+                        <span>Delivered</span>
+                        <i class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
+                    </div>
+                    <div id="stat-delivered-orders" class="text-xl font-bold text-white font-cinzel">0</div>
+                    <p class="text-[10px] text-gray-400">Successfully fulfilled</p>
+                </div>
+
+                <!-- Card 5: Cancelled -->
+                <div class="glass-card p-5 rounded-xl space-y-2 border-l-4 border-l-rose-500">
+                    <div class="flex justify-between items-center text-gray-400 text-xs">
+                        <span>Cancelled</span>
+                        <i class="fa-solid fa-ban text-rose-400 text-base"></i>
+                    </div>
+                    <div id="stat-cancelled-orders" class="text-xl font-bold text-white font-cinzel">0</div>
+                    <p class="text-[10px] text-gray-400">Revoked by user/admin</p>
+                </div>
+            </div>
+
+            <!-- Orders Table & Filter Controls -->
+            <div class="glass-panel rounded-2xl border border-empire-gold/30 p-6 space-y-4">
+
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <h3 class="font-cinzel text-lg font-bold text-white flex items-center">
+                        <i class="fa-solid fa-list-check text-empire-gold mr-2"></i> Real-Time Orders Stream
+                    </h3>
+
+                    <div class="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+                        <!-- Search Bar -->
+                        <div class="relative flex-grow sm:flex-grow-0">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-gray-400"></i>
+                            <input type="text" id="admin-search-input" oninput="renderAdminOrdersTable()" placeholder="Search Order ID, Name, Phone..." class="w-full sm:w-64 bg-black/50 border border-empire-gold/30 rounded-lg pl-8 pr-4 py-1.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-empire-gold">
+                        </div>
+
+                        <!-- Status Filter -->
+                        <select id="admin-status-filter" onchange="renderAdminOrdersTable()" class="bg-black/50 border border-empire-gold/30 rounded-lg px-3 py-1.5 text-xs text-gray-300 focus:outline-none focus:border-empire-gold">
+                            <option value="ALL">All Statuses</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Packed">Packed</option>
+                            <option value="Dispatched">Dispatched</option>
+                            <option value="Delivered">Delivered</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Table Wrapper -->
+                <div class="overflow-x-auto rounded-lg border border-empire-gold/15">
+                    <table class="w-full text-left text-xs text-gray-300">
+                        <thead class="bg-black/60 text-empire-gold uppercase tracking-wider font-cinzel border-b border-empire-gold/20">
+                            <tr>
+                                <th class="p-3.5">Order Info</th>
+                                <th class="p-3.5">Customer Details</th>
+                                <th class="p-3.5">Purchased Items</th>
+                                <th class="p-3.5">Total Amount</th>
+                                <th class="p-3.5">Parcel Status</th>
+                                <th class="p-3.5 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-orders-tbody" class="divide-y divide-empire-gold/10">
+                            <!-- Dynamic Orders Table Rows -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="admin-orders-empty" class="hidden text-center py-12 space-y-2">
+                    <i class="fa-solid fa-box-open text-4xl text-gray-600"></i>
+                    <p class="text-sm text-gray-400">No orders matching the current filter criteria.</p>
+                </div>
+            </div>
+
+        </section>
+
+
+
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-empire-gold/20 glass-panel py-8 mt-12 text-center text-xs text-gray-400">
+        <div class="max-w-7xl mx-auto px-4 space-y-3">
+            <p class="font-cinzel tracking-widest text-empire-gold font-semibold">THE SILK EMPIRE • LUXURY ONLINE BOUTIQUE</p>
+            <p class="font-urdu text-sm text-empire-lightGold/80">دی سلک ایمپائر — جہاں معیار اور خوبصورتی ملتے ہیں</p>
+            <p>&copy; 2026 The Silk Empire. All rights reserved. Encrypted Checkout & Firebase Firestore Real-time Sync.</p>
+        </div>
+    </footer>
+
+
+    <!-- ============================================== -->
+    <!-- SLIDING EMPIRE CART DRAWER MODAL               -->
+    <!-- ============================================== -->
+    <div id="cart-drawer-overlay" onclick="toggleCartDrawer(false)" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
+
+    <aside id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-empire-card border-l border-empire-gold/30 z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col justify-between p-6 glass-panel">
+
+        <!-- Drawer Header -->
+        <div class="flex justify-between items-center border-b border-empire-gold/20 pb-4">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-bag-shopping text-empire-gold text-xl"></i>
+                <h3 class="font-cinzel text-lg font-bold text-white tracking-wide">Empire Bag</h3>
+            </div>
+            <button onclick="toggleCartDrawer(false)" class="w-8 h-8 rounded-full border border-empire-gold/30 flex items-center justify-center text-gray-400 hover:text-white hover:border-empire-gold transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Cart Items List -->
+        <div id="cart-items-container" class="flex-grow overflow-y-auto py-4 space-y-4">
+            <!-- Dynamic Cart Items Rendered via JS -->
+        </div>
+
+        <!-- Cart Footer -->
+        <div class="border-t border-empire-gold/20 pt-4 space-y-4">
+            <div class="flex justify-between items-center text-sm font-semibold">
+                <span class="text-gray-300">Subtotal</span>
+                <span id="cart-subtotal" class="font-cinzel text-lg text-empire-lightGold font-bold">PKR 0</span>
+            </div>
+            <p class="text-[11px] text-gray-400">Complimentary insured luxury shipping across Pakistan.</p>
+
+            <button onclick="openCheckoutModal()" id="cart-checkout-btn" class="w-full gold-button py-3 rounded-lg text-sm uppercase tracking-wider font-bold flex items-center justify-center">
+                Proceed to Professional Checkout <i class="fa-solid fa-shield-halved ml-2"></i>
+            </button>
+        </div>
+    </aside>
+
+
+    <!-- ============================================== -->
+    <!-- PROFESSIONAL ON-SITE CHECKOUT MODAL            -->
+    <!-- ============================================== -->
+    <div id="checkout-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel border border-empire-gold/40 rounded-2xl w-full max-w-lg p-6 sm:p-8 space-y-6 shadow-2xl relative">
+
+            <button onclick="closeCheckoutModal()" class="absolute top-4 right-4 text-gray-400 hover:text-empire-gold transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="text-center space-y-1 border-b border-empire-gold/20 pb-4">
+                <span class="text-xs text-empire-gold font-semibold uppercase tracking-widest">Secure Order Dispatch</span>
+                <h3 class="font-cinzel text-2xl font-bold text-white">Customer Shipping Details</h3>
+            </div>
+
+            <form id="checkout-form" onsubmit="handleOrderSubmission(event)" class="space-y-4 text-xs">
+                <div>
+                    <label class="block text-gray-300 font-semibold mb-1">Full Name *</label>
+                    <input type="text" id="cust-name" required placeholder="e.g. Muhammad Ali" class="w-full bg-black/60 border border-empire-gold/30 rounded-lg p-3 text-white placeholder-gray-500 focus:outline-none focus:border-empire-gold">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gray-300 font-semibold mb-1">Phone / WhatsApp Number *</label>
+                        <input type="tel" id="cust-phone" required placeholder="0300 1234567" class="w-full bg-black/60 border border-empire-gold/30 rounded-lg p-3 text-white placeholder-gray-500 focus:outline-none focus:border-empire-gold">
+                    </div>
+                    <div>
+                        <label class="block text-gray-300 font-semibold mb-1">City *</label>
+                        <input type="text" id="cust-city" required placeholder="e.g. Lahore, Karachi, Islamabad" class="w-full bg-black/60 border border-empire-gold/30 rounded-lg p-3 text-white placeholder-gray-500 focus:outline-none focus:border-empire-gold">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-gray-300 font-semibold mb-1">Full Delivery Address *</label>
+                    <textarea id="cust-address" required rows="2" placeholder="House/Apartment #, Street, Block, Area..." class="w-full bg-black/60 border border-empire-gold/30 rounded-lg p-3 text-white placeholder-gray-500 focus:outline-none focus:border-empire-gold"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-gray-300 font-semibold mb-1">Payment Method</label>
+                    <div class="p-3 rounded-lg border border-empire-gold/30 bg-empire-gold/5 flex items-center justify-between">
+                        <span class="text-empire-lightGold font-semibold"><i class="fa-solid fa-truck-ramp-box mr-2"></i> Cash on Delivery (COD)</span>
+                        <i class="fa-solid fa-circle-check text-empire-gold"></i>
+                    </div>
+                </div>
+
+                <div class="pt-2 border-t border-empire-gold/20 flex justify-between items-center text-sm">
+                    <span class="text-gray-300">Total Payable:</span>
+                    <span id="checkout-total-price" class="font-cinzel text-lg font-bold text-empire-lightGold">PKR 0</span>
+                </div>
+
+                <button type="submit" id="confirm-order-btn" class="w-full gold-button py-3 rounded-lg text-sm uppercase tracking-wider font-bold shadow-goldGlow flex items-center justify-center">
+                    Confirm & Place Royal Order <i class="fa-solid fa-check-circle ml-2"></i>
+                </button>
+            </form>
+        </div>
     </div>
 
-    <!-- Firebase v10 Modular SDK Imports -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-        import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+<!-- Combined Ambassadors Row -->
+<div style="display: flex; gap: 30px; align-items: center; justify-content: center; flex-wrap: wrap; margin: 35px 0;">
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyBChoh6pml63_-cB3jpeLHG5OxjB6jtxHc",
-            authDomain: "the-silk-empire.firebaseapp.com",
-            projectId: "the-silk-empire",
-            storageBucket: "the-silk-empire.firebasestorage.app",
-            messagingSenderId: "990023610065",
-            appId: "1:990023610065:web:c4ac6368716b8187305ff0",
-            measurementId: "G-7FK171Q0B7"
-        };
+    <!-- Syed Sameer Bukhari Profile Badge -->
+    <div class="ambassador-card" style="display: flex; align-items: center; gap: 20px; background: rgba(255, 204, 0, 0.06); border: 2px solid rgba(191, 149, 63, 0.5); border-radius: 120px; padding: 16px 36px 16px 16px; width: fit-content; box-shadow: 0 6px 25px rgba(0,0,0,0.4); cursor: pointer;">
+        <img src="WhatsApp Image 2026-10-29 at 10.53.22 PM.jpeg" alt="Syed Sameer Bukhari" class="ambassador-photo-glow" style="width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 3px solid #BF953F;">
+        <div>
+            <h5 style="color: #fff; margin: 0 0 6px 0; font-size: 1.3rem; font-weight: 700; letter-spacing: 0.8px;">Syed Sameer Bukhari</h5>
+            <span style="color: #FFCC00; font-size: 0.9rem; text-transform: uppercase; font-weight: bold; letter-spacing: 1.5px;">👑 BRAND AMBASSADOR</span>
+        </div>
+    </div>
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+    <!-- Raza Abbas Profile Badge -->
+    <div class="ambassador-card" style="display: flex; align-items: center; gap: 20px; background: rgba(255, 204, 0, 0.06); border: 2px solid rgba(191, 149, 63, 0.5); border-radius: 120px; padding: 16px 36px 16px 16px; width: fit-content; box-shadow: 0 6px 25px rgba(0,0,0,0.4); cursor: pointer;">
+        <img src="WhatsApp Image 2026-10-29 at 11.22.24 PM.jpeg" alt="Raza Abbas" class="ambassador-photo-glow" style="width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 3px solid #BF953F;">
+        <div>
+            <h5 style="color: #fff; margin: 0 0 6px 0; font-size: 1.3rem; font-weight: 700; letter-spacing: 0.8px;">Raza Abbas</h5>
+            <span style="color: #FFCC00; font-size: 0.9rem; text-transform: uppercase; font-weight: bold; letter-spacing: 1.5px;">⚡ CO-FOUNDER / PARTNER</span>
+        </div>
+    </div>
 
-        window.handleCheckoutSubmit = async function(event) {
-            event.preventDefault();
+</div>
 
-            const orderId = 'SE-' + Math.floor(100000 + Math.random() * 900000);
-            const customerName = document.getElementById('fullName').value;
-            const phone = document.getElementById('phone').value;
-            const city = document.getElementById('city').value;
-            const address = document.getElementById('address').value;
+
+
+
+
+
+
+    <!-- ============================================== -->
+    <!-- ORDER SUCCESSFUL CONFIRMATION MODAL            -->
+    <!-- ============================================== -->
+    <div id="order-success-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel border border-empire-gold/50 rounded-2xl w-full max-w-md p-8 text-center space-y-5 shadow-2xl relative">
+            <div class="w-16 h-16 rounded-full bg-empire-gold/20 border border-empire-gold flex items-center justify-center mx-auto text-empire-gold text-2xl shadow-goldGlow animate-bounce">
+                <i class="fa-solid fa-crown"></i>
+            </div>
+
+            <div class="space-y-2">
+                <h3 class="font-cinzel text-2xl font-bold text-white">Order Confirmed!</h3>
+                <p class="text-xs text-gray-300">Thank you for choosing <span class="text-empire-gold font-bold">The Silk Empire</span>. Your parcel is being prepared.</p>
+            </div>
+
+            <div class="bg-black/60 p-4 rounded-xl border border-empire-gold/30 text-xs space-y-2 text-left">
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Tracking Order ID:</span>
+                    <span id="success-order-id" class="font-mono text-empire-gold font-bold">#SE-0000</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Total Amount:</span>
+                    <span id="success-order-total" class="font-bold text-white">PKR 0</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Initial Status:</span>
+                    <span class="text-amber-400 font-semibold">Pending Verification</span>
+                </div>
+            </div>
+
+            <p class="text-[11px] text-gray-400">Our logistics team will verify your phone number and dispatch your package shortly.</p>
+
+            <button onclick="closeSuccessModal()" class="w-full gold-button py-2.5 rounded-lg text-xs uppercase tracking-wider font-bold">
+                Continue Shopping
+            </button>
+        </div>
+    </div>
+
+
+    <!-- ============================================== -->
+    <!-- APPLICATION JAVASCRIPT ENGINE                 -->
+    <!-- ============================================== -->
+    <script>
+        // --- 1. Product Catalog Database ---
+        const PRODUCTS = [
+            { id: 'se-101', title: 'Palace Signature Black Tee', category: 'Shirts', price: 3499, img: 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=600&q=80', badge: 'HOT' },
+            { id: 'se-102', title: 'Royal Gold Silk Embroidered Kurta', category: 'Ethnic', price: 8999, img: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=600&q=80', badge: 'NEW' },
+            { id: 'se-103', title: 'Midnight Velvet Oversized Hoodie', category: 'Streetwear', price: 6499, img: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=600&q=80', badge: 'LUXURY' },
+            { id: 'se-104', title: 'Empire Monogram Silk Button Up', category: 'Shirts', price: 4999, img: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=600&q=80', badge: 'POPULAR' },
+            { id: 'se-105', title: 'Sultan Hand-Stitched Sherwani Jacket', category: 'Ethnic', price: 14999, img: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80', badge: 'LIMITED' },
+            { id: 'se-106', title: 'Golden Crest Cargo Sweatpants', category: 'Streetwear', price: 4299, img: 'https://images.unsplash.com/photo-1552902865-b72c031ac5ea?auto=format&fit=crop&w=600&q=80', badge: 'ESSENTIAL' }
+        ];
+
+        // --- 2. Global State ---
+        let cart = [];
+        let orders = [];
+        let currentCategory = 'All';
+        let db = null;
+        let useFallbackState = true;
+
+        // --- 3. Initial Firebase & State Initialization ---
+        window.addEventListener('DOMContentLoaded', () => {
+            initFirebase();
+            renderProducts();
+            updateCartUI();
+        });
+
+        function initFirebase() {
+            try {
+                // If firebase config standard is present in environment
+                if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+                    const firebaseConfig = JSON.parse(__firebase_config);
+                    firebase.initializeApp(firebaseConfig);
+                    db = firebase.firestore();
+                    useFallbackState = false;
+                    console.log("Firebase initialized successfully.");
+
+                    // Listen to Firestore real-time updates
+                    const appId = typeof __app_id !== 'undefined' ? __app_id : 'silk-empire-default';
+                    db.collection('artifacts').doc(appId).collection('public').doc('data').collection('orders')
+                        .onSnapshot((snapshot) => {
+                            orders = [];
+                            snapshot.forEach((doc) => {
+                                orders.push({ id: doc.id, ...doc.data() });
+                            });
+                            // Sort newest first
+                            orders.sort((a, b) => b.createdAt - a.createdAt);
+                            renderAdminOrdersTable();
+                            updateAnalyticsOverview();
+                        }, (err) => {
+                            console.warn("Firestore listener error, switching to fallback memory state:", err);
+                            enableFallbackOrders();
+                        });
+                } else {
+                    enableFallbackOrders();
+                }
+            } catch (e) {
+                console.warn("Firebase setup failed, using memory state:", e);
+                enableFallbackOrders();
+            }
+        }
+
+        function enableFallbackOrders() {
+            useFallbackState = true;
+            // Seed default mock orders for instant admin demo
+            if (orders.length === 0) {
+                orders = [
+                    {
+                        id: 'SE-8492',
+                        customerName: 'Hamza Sheikh',
+                        phone: '0300 8472910',
+                        city: 'Lahore',
+                        address: '14-C Gulberg III, Main Boulevard',
+                        items: [{ title: 'Palace Signature Black Tee', qty: 2, price: 3499 }],
+                        totalAmount: 6998,
+                        status: 'Dispatched',
+                        createdAt: Date.now() - 3600000 * 4
+                    },
+                    {
+                        id: 'SE-9104',
+                        customerName: 'Zainab Malik',
+                        phone: '0321 4455667',
+                        city: 'Karachi',
+                        address: 'Villa 82, DHA Phase 6',
+                        items: [{ title: 'Royal Gold Silk Embroidered Kurta', qty: 1, price: 8999 }],
+                        totalAmount: 8999,
+                        status: 'Pending',
+                        createdAt: Date.now() - 3600000 * 1
+                    }
+                ];
+            }
+            renderAdminOrdersTable();
+            updateAnalyticsOverview();
+        }
+
+        // --- 4. Storefront Product Grid Logic ---
+        function renderProducts() {
+            const container = document.getElementById('products-container');
+            const filtered = currentCategory === 'All'
+                ? PRODUCTS
+                : PRODUCTS.filter(p => p.category === currentCategory);
+
+            document.getElementById('displayed-products-count').innerText = filtered.length;
+
+            container.innerHTML = filtered.map(product => `
+                <div class="product-card glass-card rounded-2xl overflow-hidden flex flex-col justify-between p-4 group">
+                    <div class="relative overflow-hidden rounded-xl mb-4 bg-black/40 aspect-square">
+                        <img src="${product.img}" alt="${product.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 bg-empire-gold text-empire-black font-bold text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wider">
+                            ${product.badge}
+                        </span>
+                    </div>
+
+                    <div class="space-y-2 flex-grow flex flex-col justify-between">
+                        <div>
+                            <span class="text-[11px] text-empire-gold uppercase tracking-widest font-semibold">${product.category}</span>
+                            <h3 class="font-cinzel text-base font-bold text-white group-hover:text-empire-lightGold transition">${product.title}</h3>
+                        </div>
+
+                        <div class="pt-2 flex items-center justify-between border-t border-empire-gold/15">
+                            <div>
+                                <span class="text-[10px] text-gray-400 block">Price</span>
+                                <span class="price text-sm font-bold text-empire-lightGold font-cinzel">PKR ${product.price.toLocaleString()}</span>
+                            </div>
+                            <button onclick="addToCart('${product.id}')" class="add-to-cart gold-button px-3.5 py-2 rounded-lg text-xs flex items-center space-x-1">
+                                <i class="fa-solid fa-plus text-[10px]"></i>
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterProducts(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                if (btn.innerText.includes(cat) || (cat === 'All' && btn.innerText.includes('All'))) {
+                    btn.className = "category-btn active px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold border border-empire-gold text-empire-black bg-empire-gold transition-all";
+                } else {
+                    btn.className = "category-btn px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold border border-empire-gold/30 text-gray-300 hover:border-empire-gold transition-all";
+                }
+            });
+            renderProducts();
+        }
+
+        // --- 5. Cart Management & Drawer Logic ---
+        function addToCart(productId) {
+            const product = PRODUCTS.find(p => p.id === productId);
+            if (!product) return;
+
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            updateCartUI();
+            toggleCartDrawer(true);
+        }
+
+        function changeCartQuantity(index, delta) {
+            if (cart[index]) {
+                cart[index].quantity += delta;
+                if (cart[index].quantity <= 0) {
+                    cart.splice(index, 1);
+                }
+                updateCartUI();
+            }
+        }
+
+        function removeFromCart(index) {
+            if (cart[index]) {
+                cart.splice(index, 1);
+                updateCartUI();
+            }
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cart-items-container');
+            const totalCount = cart.reduce((sum, i) => sum + i.quantity, 0);
+            const subtotal = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+
+            document.getElementById('cart-badge-count').innerText = totalCount;
+            document.getElementById('cart-subtotal').innerText = `PKR ${subtotal.toLocaleString()}`;
+            document.getElementById('checkout-total-price').innerText = `PKR ${subtotal.toLocaleString()}`;
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-16 space-y-3">
+                        <i class="fa-solid fa-bag-shopping text-4xl text-gray-600"></i>
+                        <p class="text-sm text-gray-400">Your Royal Empire Bag is currently empty.</p>
+                    </div>
+                `;
+                document.getElementById('cart-checkout-btn').disabled = true;
+                document.getElementById('cart-checkout-btn').classList.add('opacity-50', 'cursor-not-allowed');
+                return;
+            }
+
+            document.getElementById('cart-checkout-btn').disabled = false;
+            document.getElementById('cart-checkout-btn').classList.remove('opacity-50', 'cursor-not-allowed');
+
+            container.innerHTML = cart.map((item, index) => `
+                <div class="flex items-center space-x-3 bg-black/40 p-3 rounded-xl border border-empire-gold/15">
+                    <img src="${item.img}" class="w-14 h-14 object-cover rounded-lg border border-empire-gold/20">
+                    <div class="flex-grow">
+                        <h4 class="text-xs font-bold text-white font-cinzel line-clamp-1">${item.title}</h4>
+                        <p class="text-[11px] text-empire-gold">PKR ${item.price.toLocaleString()}</p>
+                        <div class="flex items-center space-x-2 mt-1">
+                            <button onclick="changeCartQuantity(${index}, -1)" class="w-5 h-5 bg-empire-card border border-empire-gold/40 text-white flex items-center justify-center rounded hover:border-empire-gold text-xs">-</button>
+                            <span class="text-xs font-semibold text-white px-1">${item.quantity}</span>
+                            <button onclick="changeCartQuantity(${index}, 1)" class="w-5 h-5 bg-empire-card border border-empire-gold/40 text-white flex items-center justify-center rounded hover:border-empire-gold text-xs">+</button>
+                        </div>
+                    </div>
+                    <button onclick="removeFromCart(${index})" class="text-rose-400 hover:text-rose-300 p-1 text-xs">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function toggleCartDrawer(open) {
+            const drawer = document.getElementById('cart-drawer');
+            const overlay = document.getElementById('cart-drawer-overlay');
+            if (open) {
+                overlay.classList.remove('opacity-0', 'pointer-events-none');
+                drawer.classList.remove('translate-x-full');
+            } else {
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+                drawer.classList.add('translate-x-full');
+            }
+        }
+
+        // --- 6. Checkout & Order Placement Engine ---
+        function openCheckoutModal() {
+            if (cart.length === 0) return;
+            toggleCartDrawer(false);
+            document.getElementById('checkout-modal').classList.remove('hidden');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkout-modal').classList.add('hidden');
+        }
+
+        async function handleOrderSubmission(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('cust-name').value.trim();
+            const phone = document.getElementById('cust-phone').value.trim();
+            const city = document.getElementById('cust-city').value.trim();
+            const address = document.getElementById('cust-address').value.trim();
+
+            if (!name || !phone || !city || !address) return;
+
+            const orderId = 'SE-' + Math.floor(1000 + Math.random() * 9000);
+            const totalAmount = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+
+            const newOrder = {
+                id: orderId,
+                customerName: name,
+                phone: phone,
+                city: city,
+                address: address,
+                items: cart.map(i => ({ title: i.title, qty: i.quantity, price: i.price })),
+                totalAmount: totalAmount,
+                status: 'Pending',
+                createdAt: Date.now()
+            };
+
+            const submitBtn = document.getElementById('confirm-order-btn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Encrypting & Dispatching...`;
 
             try {
-                await setDoc(doc(db, "orders", orderId), {
-                    orderId: orderId,
-                    customerName: customerName,
-                    phone: phone,
-                    city: city,
-                    address: address,
-                    totalAmount: 6499,
-                    status: 'Order Placed',
-                    createdAt: serverTimestamp()
-                });
+                if (!useFallbackState && db) {
+                    const appId = typeof __app_id !== 'undefined' ? __app_id : 'silk-empire-default';
+                    await db.collection('artifacts').doc(appId).collection('public').doc('data').collection('orders').doc(orderId).set(newOrder);
+                } else {
+                    orders.unshift(newOrder);
+                    renderAdminOrdersTable();
+                    updateAnalyticsOverview();
+                }
 
-                alert(`Order successfully placed! Aapki Tracking ID hai: ${orderId}`);
-                document.getElementById('checkoutForm').reset();
-            } catch (error) {
-                console.error("Order save karne mein error aaya: ", error);
-                alert("Order place nahi ho saka, dobara koshish karein.");
+                // Show Success Screen
+                document.getElementById('success-order-id').innerText = `#${orderId}`;
+                document.getElementById('success-order-total').innerText = `PKR ${totalAmount.toLocaleString()}`;
+
+                closeCheckoutModal();
+                document.getElementById('order-success-modal').classList.remove('hidden');
+
+                // Clear cart & reset form
+                cart = [];
+                updateCartUI();
+                document.getElementById('checkout-form').reset();
+            } catch (err) {
+                console.error("Error saving order: ", err);
+                alert("Order processing error. Please try again.");
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `Confirm & Place Royal Order <i class="fa-solid fa-check-circle ml-2"></i>`;
             }
-        };
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('order-success-modal').classList.add('hidden');
+        }
+
+        // --- 7. Admin Portal & Real-Time Management ---
+        function renderAdminOrdersTable() {
+            const tbody = document.getElementById('admin-orders-tbody');
+            const searchVal = document.getElementById('admin-search-input').value.toLowerCase();
+            const statusVal = document.getElementById('admin-status-filter').value;
+
+            const filteredOrders = orders.filter(o => {
+                const matchesSearch = o.id.toLowerCase().includes(searchVal) ||
+                                     o.customerName.toLowerCase().includes(searchVal) ||
+                                     o.phone.toLowerCase().includes(searchVal) ||
+                                     o.city.toLowerCase().includes(searchVal);
+                const matchesStatus = statusVal === 'ALL' || o.status === statusVal;
+                return matchesSearch && matchesStatus;
+            });
+
+            if (filteredOrders.length === 0) {
+                tbody.innerHTML = '';
+                document.getElementById('admin-orders-empty').classList.remove('hidden');
+                return;
+            }
+            document.getElementById('admin-orders-empty').classList.add('hidden');
+
+            tbody.innerHTML = filteredOrders.map(order => `
+                <tr class="hover:bg-empire-gold/5 transition">
+                    <!-- Order Info -->
+                    <td class="p-3.5">
+                        <div class="font-mono text-empire-gold font-bold">#${order.id}</div>
+                        <div class="text-[10px] text-gray-400">${new Date(order.createdAt).toLocaleString()}</div>
+                    </td>
+
+                    <!-- Customer Details -->
+                    <td class="p-3.5">
+                        <div class="font-bold text-white">${order.customerName}</div>
+                        <div class="text-[11px] text-gray-300"><i class="fa-solid fa-phone text-[9px] mr-1 text-empire-gold"></i>${order.phone}</div>
+                        <div class="text-[10px] text-gray-400">${order.address}, <span class="text-empire-lightGold font-semibold">${order.city}</span></div>
+                    </td>
+
+                    <!-- Items List -->
+                    <td class="p-3.5">
+                        <div class="space-y-1">
+                            ${order.items.map(i => `
+                                <div class="text-[11px] text-gray-300">
+                                    • ${i.title} <span class="text-empire-gold font-semibold">x${i.qty}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </td>
+
+                    <!-- Total Price -->
+                    <td class="p-3.5 font-cinzel font-bold text-empire-lightGold text-sm">
+                        PKR ${order.totalAmount.toLocaleString()}
+                    </td>
+
+                    <!-- Status Selector Dropdown -->
+                    <td class="p-3.5">
+                        <select onchange="updateOrderStatus('${order.id}', this.value)" class="bg-black/80 border ${getStatusBorderClass(order.status)} rounded px-2.5 py-1 text-xs font-semibold focus:outline-none">
+                            <option value="Pending" ${order.status === 'Pending' ? 'selected' : ''}>⏳ Pending</option>
+                            <option value="Packed" ${order.status === 'Packed' ? 'selected' : ''}>📦 Packed</option>
+                            <option value="Dispatched" ${order.status === 'Dispatched' ? 'selected' : ''}>🚚 Dispatched</option>
+                            <option value="Delivered" ${order.status === 'Delivered' ? 'selected' : ''}>✅ Delivered</option>
+                            <option value="Cancelled" ${order.status === 'Cancelled' ? 'selected' : ''}>❌ Cancelled</option>
+                        </select>
+                    </td>
+
+                    <!-- Actions -->
+                    <td class="p-3.5 text-right space-x-2">
+                        ${order.status !== 'Cancelled' ? `
+                            <button onclick="updateOrderStatus('${order.id}', 'Cancelled')" title="Cancel Order" class="px-2 py-1 rounded border border-rose-500/40 bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 text-xs transition">
+                                Cancel
+                            </button>
+                        ` : ''}
+                        <button onclick="deleteOrder('${order.id}')" title="Delete Order Record" class="px-2 py-1 rounded border border-gray-600 bg-gray-800 text-gray-400 hover:text-white hover:border-gray-400 text-xs transition">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function getStatusBorderClass(status) {
+            switch(status) {
+                case 'Pending': return 'border-amber-500 text-amber-400';
+                case 'Packed': return 'border-blue-500 text-blue-400';
+                case 'Dispatched': return 'border-purple-500 text-purple-400';
+                case 'Delivered': return 'border-emerald-500 text-emerald-400';
+                case 'Cancelled': return 'border-rose-500 text-rose-400';
+                default: return 'border-gray-500 text-gray-300';
+            }
+        }
+
+        async function updateOrderStatus(orderId, newStatus) {
+            try {
+                if (!useFallbackState && db) {
+                    const appId = typeof __app_id !== 'undefined' ? __app_id : 'silk-empire-default';
+                    await db.collection('artifacts').doc(appId).collection('public').doc('data').collection('orders').doc(orderId).update({
+                        status: newStatus
+                    });
+                } else {
+                    const target = orders.find(o => o.id === orderId);
+                    if (target) {
+                        target.status = newStatus;
+                        renderAdminOrdersTable();
+                        updateAnalyticsOverview();
+                    }
+                }
+            } catch (e) {
+                console.error("Failed to update status:", e);
+                alert("Status update failed.");
+            }
+        }
+
+        async function deleteOrder(orderId) {
+            if (!confirm(`Are you sure you want to delete order #${orderId}?`)) return;
+            try {
+                if (!useFallbackState && db) {
+                    const appId = typeof __app_id !== 'undefined' ? __app_id : 'silk-empire-default';
+                    await db.collection('artifacts').doc(appId).collection('public').doc('data').collection('orders').doc(orderId).delete();
+                } else {
+                    orders = orders.filter(o => o.id !== orderId);
+                    renderAdminOrdersTable();
+                    updateAnalyticsOverview();
+                }
+            } catch (e) {
+                console.error("Failed to delete order:", e);
+            }
+        }
+
+        function updateAnalyticsOverview() {
+            const totalRevenue = orders
+                .filter(o => o.status === 'Delivered')
+                .reduce((sum, o) => sum + o.totalAmount, 0);
+
+            const activeCount = orders.filter(o => ['Pending', 'Packed', 'Dispatched'].includes(o.status)).length;
+            const deliveredCount = orders.filter(o => o.status === 'Delivered').length;
+            const cancelledCount = orders.filter(o => o.status === 'Cancelled').length;
+
+            document.getElementById('stat-total-revenue').innerText = `PKR ${totalRevenue.toLocaleString()}`;
+            document.getElementById('stat-total-orders').innerText = orders.length;
+            document.getElementById('stat-active-orders').innerText = activeCount;
+            document.getElementById('stat-delivered-orders').innerText = deliveredCount;
+            document.getElementById('stat-cancelled-orders').innerText = cancelledCount;
+        }
+
+        function seedSampleOrders() {
+            const sampleNames = ['Saim Ali', 'Usman Qureshi', 'Bilal Ahmed', 'Ayesha Khan'];
+            const sampleCities = ['Karachi', 'Rawalpindi', 'Peshawar', 'Multan'];
+            const randomName = sampleNames[Math.floor(Math.random() * sampleNames.length)];
+            const randomCity = sampleCities[Math.floor(Math.random() * sampleCities.length)];
+            const randomId = 'SE-' + Math.floor(1000 + Math.random() * 9000);
+
+            const sampleOrder = {
+                id: randomId,
+                customerName: randomName,
+                phone: '03' + Math.floor(100000000 + Math.random() * 900000000),
+                city: randomCity,
+                address: 'Street 4, Sector G-11',
+                items: [{ title: 'Empire Monogram Silk Button Up', qty: 1, price: 4999 }],
+                totalAmount: 4999,
+                status: 'Pending',
+                createdAt: Date.now()
+            };
+
+            if (!useFallbackState && db) {
+                const appId = typeof __app_id !== 'undefined' ? __app_id : 'silk-empire-default';
+                db.collection('artifacts').doc(appId).collection('public').doc('data').collection('orders').doc(randomId).set(sampleOrder);
+            } else {
+                orders.unshift(sampleOrder);
+                renderAdminOrdersTable();
+                updateAnalyticsOverview();
+            }
+        }
+
+        // --- 8. Navigation Switcher ---
+        function switchTab(tab) {
+            const storefrontView = document.getElementById('view-storefront');
+            const adminView = document.getElementById('view-admin');
+            const storefrontBtn = document.getElementById('tab-storefront-btn');
+            const adminBtn = document.getElementById('tab-admin-btn');
+            const cartHeaderBtn = document.getElementById('header-cart-btn');
+
+            if (tab === 'storefront') {
+                storefrontView.classList.remove('hidden');
+                adminView.classList.add('hidden');
+                cartHeaderBtn.classList.remove('hidden');
+
+                storefrontBtn.className = "px-3 sm:px-4 py-1.5 rounded-md font-semibold transition-all duration-300 bg-empire-gold text-empire-black shadow-md";
+                adminBtn.className = "px-3 sm:px-4 py-1.5 rounded-md font-semibold text-gray-400 hover:text-empire-gold transition-all duration-300";
+            } else {
+                storefrontView.classList.add('hidden');
+                adminView.classList.remove('hidden');
+                cartHeaderBtn.classList.add('hidden');
+
+                adminBtn.className = "px-3 sm:px-4 py-1.5 rounded-md font-semibold transition-all duration-300 bg-empire-gold text-empire-black shadow-md";
+                storefrontBtn.className = "px-3 sm:px-4 py-1.5 rounded-md font-semibold text-gray-400 hover:text-empire-gold transition-all duration-300";
+
+                renderAdminOrdersTable();
+                updateAnalyticsOverview();
+            }
+        }
     </script>
+    <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-analytics.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyBChoh6pml63_-cB3jpeLHG5OxjB6jtxHc",
+    authDomain: "the-silk-empire.firebaseapp.com",
+    projectId: "the-silk-empire",
+    storageBucket: "the-silk-empire.firebasestorage.app",
+    messagingSenderId: "990023610065",
+    appId: "1:990023610065:web:c4ac6368716b8187305ff0",
+    measurementId: "G-7FK171Q0B7"
+  };
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
 </body>
 </html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <!-- 1. Basic SEO & Canonical -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Silk Empire - Official Store</title>
+    <meta name="description" content="Discover The Silk Empire - Luxury handcrafted silk threads, modern Islamic silhouettes, and timeless aesthetic tailored for distinction.">
+    <meta name="keywords" content="The Silk Empire, Luxury Silk, Islamic Fashion, Winter Royalty Collection, Designer Wear, Pakistani Fashion, Menswear">
+    <meta name="author" content="The Silk Empire">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://the-silk-empire.netlify.app/">
+
+    <!-- 2. Open Graph Tags (Facebook, Instagram, WhatsApp, LinkedIn) -->
+    <meta property="og:site_name" content="The Silk Empire">
+    <meta property="og:title" content="The Silk Empire - Official Store">
+    <meta property="og:description" content="Handcrafted silk threads, modern Islamic silhouettes, and timeless aesthetic tailored for those who command distinction.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://the-silk-empire.netlify.app/">
+    <meta property="og:image" content="https://the-silk-empire.netlify.app/og-image.jpg">
+    <meta property="og:image:secure_url" content="https://the-silk-empire.netlify.app/og-image.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="The Silk Empire Banner">
+    <meta property="og:locale" content="en_US">
+
+    <!-- 3. Twitter / X Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@TheSilkEmpire">
+    <meta name="twitter:creator" content="@TheSilkEmpire">
+    <meta name="twitter:title" content="The Silk Empire - Official Store">
+    <meta name="twitter:description" content="Handcrafted silk threads, modern Islamic silhouettes, and timeless aesthetic tailored for distinction.">
+    <meta name="twitter:image" content="https://the-silk-empire.netlify.app/og-image.jpg">
+    <meta name="twitter:image:alt" content="The Silk Empire Banner">
+
+    <!-- 4. Pinterest & Mobile Theme Branding -->
+    <meta name="pinterest-rich-pin" content="true">
+    <meta name="theme-color" content="#1b1b1b">
+    <meta name="apple-mobile-web-app-title" content="The Silk Empire">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <title>The Silk Empire - Checkout</title>
+    <style>
+        :root {
+            font-family: Inter, system-ui, sans-serif;
+            color: #1b1b1b;
+            background: #f5f4f1;
+        }
+        body { margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .checkout-card { background: #fff; width: 100%; max-width: 480px; padding: 32px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); border: 1px solid #e6e3dd; }
+        h1 { font-family: Georgia, serif; font-size: 1.75rem; margin-top: 0; margin-bottom: 24px; text-align: center; }
+        .field { margin-bottom: 16px; display: grid; gap: 6px; }
+        label { font-size: 0.85rem; font-weight: 600; }
+        input { width: 100%; padding: 12px; border: 1px solid #d8d5cf; border-radius: 8px; outline: none; font: inherit; }
+        input:focus { border-color: #1b1b1b; box-shadow: 0 0 0 3px rgba(27,27,27,0.1); }
+        .btn { width: 100%; padding: 12px; background: #1b1b1b; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+        .btn:hover { background: #39352e; }
+    </style>
+</head>
+<body>
+
+    <div class="checkout-card">
+        <h1>The Silk Empire</h1>
+        <form id="checkoutForm" onsubmit="handleCheckoutSubmit(event)">
+            <div class="field">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" required placeholder="Apna naam likhein">
+            </div>
+            <div class="field">
+                <label for="phone">Phone Number</label>
+                <input type="text" id="phone" required placeholder="03XXXXXXXXX">
+            </div>
+            <div class="field">
+                <label for="city">City</label>
+                <input type="text" id="city" required placeholder="Karachi">
+            </div>
+            <div class="field">
+                <label for="address">Delivery Address</label>
+                <input type="text" id="address" required placeholder="Poora pata likhein">
+            </div>
+            <button type="submit" class="btn">Place Order</button>
+        </form>
+    </div>
+
+    <!-- Firebase v10 Modular SDK Imports -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+        import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBChoh6pml63_-cB3jpeLHG5OxjB6jtxHc",
+            authDomain: "the-silk-empire.firebaseapp.com",
+            projectId: "the-silk-empire",
+            storageBucket: "the-silk-empire.firebasestorage.app",
+            messagingSenderId: "990023610065",
+            appId: "1:990023610065:web:c4ac6368716b8187305ff0",
+            measurementId: "G-7FK171Q0B7"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.handleCheckoutSubmit = async function(event) {
+            event.preventDefault();
+
+            const orderId = 'SE-' + Math.floor(100000 + Math.random() * 900000);
+            const customerName = document.getElementById('fullName').value;
+            const phone = document.getElementById('phone').value;
+            const city = document.getElementById('city').value;
+            const address = document.getElementById('address').value;
+
+            try {
+                await setDoc(doc(db, "orders", orderId), {
+                    orderId: orderId,
+                    customerName: customerName,
+                    phone: phone,
+                    city: city,
+                    address: address,
+                    totalAmount: 6499,
+                    status: 'Order Placed',
+                    createdAt: serverTimestamp()
+                });
+
+                alert(`Order successfully placed! Aapki Tracking ID hai: ${orderId}`);
+                document.getElementById('checkoutForm').reset();
+            } catch (error) {
+                console.error("Order save karne mein error aaya: ", error);
+                alert("Order place nahi ho saka, dobara koshish karein.");
+            }
+        };
+    </script>
+</body>
+</html>
