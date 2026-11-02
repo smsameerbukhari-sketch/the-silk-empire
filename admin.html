@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#111111">
+  <title>Admin Dashboard | The Silk Empire</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #1b1b1b;
+      background: #f5f4f1;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+
+    .shell {
+      width: min(100% - 32px, 1040px);
+      margin: 0 auto;
+      padding: 28px 0 56px;
+    }
+
+    .topbar, .topbar-actions, .section-heading, .product-card, .product-info {
+      display: flex;
+      align-items: center;
+    }
+
+    .topbar, .section-heading {
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .topbar {
+      margin-bottom: 36px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid #dedbd5;
+    }
+
+    .brand {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: #77736c;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, p { margin-top: 0; }
+    h1, h2 { font-family: Georgia, "Times New Roman", serif; font-weight: 500; }
+    h1 { margin-bottom: 8px; font-size: clamp(2rem, 6vw, 3rem); }
+    h2 { margin-bottom: 0; font-size: 1.55rem; }
+
+    .muted, .signed-in { color: #706d67; }
+    .signed-in { max-width: 190px; overflow-wrap: anywhere; font-size: .85rem; }
+    .topbar-actions { gap: 14px; }
+
+    .panel {
+      border: 1px solid #e6e3dd;
+      border-radius: 14px;
+      background: #fff;
+      box-shadow: 0 8px 26px rgb(34 29 20 / 4%);
+    }
+
+    .login-panel {
+      width: min(100%, 440px);
+      margin: 8vh auto;
+      padding: clamp(24px, 6vw, 40px);
+    }
+
+    .login-panel h1 { font-size: 2.25rem; }
+    .login-panel > p:not(.eyebrow) { color: #706d67; line-height: 1.55; }
+
+    .dashboard { display: grid; gap: 24px; }
+    .form-panel, .list-panel { padding: clamp(20px, 4vw, 30px); }
+    .form-panel { margin-top: 30px; }
+
+    .field { display: grid; gap: 8px; margin: 20px 0; }
+    label { font-size: .9rem; font-weight: 650; }
+
+    input {
+      width: 100%;
+      min-height: 48px;
+      padding: 12px 14px;
+      border: 1px solid #d8d5cf;
+      border-radius: 8px;
+      outline: none;
+      background: #fff;
+    }
+
+    input:focus { border-color: #51493c; box-shadow: 0 0 0 3px rgb(81 73 60 / 12%); }
+
+    .button {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border: 1px solid #1b1b1b;
+      border-radius: 8px;
+      background: #1b1b1b;
+      color: white;
+      font-weight: 650;
+      text-decoration: none;
+      transition: background .15s ease, color .15s ease, opacity .15s ease;
+    }
+
+    .button:hover { background: #39352e; }
+    .button:disabled { cursor: wait; opacity: .6; }
+    .button-secondary { border-color: #d8d5cf; background: #fff; color: #24221f; }
+    .button-secondary:hover { background: #f5f4f1; }
+    .button-danger { min-height: 38px; padding: 7px 12px; border-color: #a9332b; background: #fff; color: #a9332b; }
+    .button-danger:hover { background: #fff4f3; }
+    .full-width { width: 100%; }
+
+    .notice {
+      display: none;
+      margin: 16px 0 0;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: .9rem;
+      line-height: 1.45;
+    }
+
+    .notice[data-kind="error"] { display: block; background: #fff0ef; color: #8d241d; }
+    .notice[data-kind="success"] { display: block; background: #edf7ef; color: #245c31; }
+    .notice[data-kind="info"] { display: block; background: #f0f3f6; color: #34495e; }
+
+    .list-panel { min-width: 0; }
+    .section-heading { margin-bottom: 20px; }
+    .product-list { display: grid; gap: 12px; }
+
+    .product-card {
+      min-width: 0;
+      gap: 14px;
+      padding: 12px;
+      border: 1px solid #ebe8e2;
+      border-radius: 10px;
+    }
+
+    .product-image {
+      width: 68px;
+      height: 80px;
+      flex: 0 0 68px;
+      border-radius: 6px;
+      background: #f1efeb;
+      object-fit: cover;
+    }
+
+    .product-info { min-width: 0; flex: 1; justify-content: space-between; gap: 12px; }
+    .product-copy { min-width: 0; }
+    .product-title { margin: 0 0 5px; overflow-wrap: anywhere; font-weight: 650; }
+    .product-price { margin: 0; color: #706d67; font-size: .9rem; }
+    .empty-state { padding: 24px 12px; color: #706d67; text-align: center; }
+    .helper { margin: -10px 0 18px; color: #77736c; font-size: .82rem; line-height: 1.45; }
+    [hidden] { display: none !important; }
+
+    @media (min-width: 760px) {
+      .shell { padding-top: 38px; }
+      .dashboard { grid-template-columns: minmax(280px, .8fr) minmax(0, 1.2fr); align-items: start; }
+      .form-panel { position: sticky; top: 24px; margin-top: 0; }
+      .product-image { width: 78px; height: 90px; flex-basis: 78px; }
+    }
+
+    @media (max-width: 480px) {
+      .shell { width: min(100% - 24px, 1040px); padding-top: 18px; }
+      .topbar { margin-bottom: 26px; }
+      .topbar-actions { gap: 8px; }
+      .signed-in { display: none; }
+      .product-card { align-items: flex-start; }
+      .product-info { align-items: flex-start; flex-direction: column; }
+      .button-danger { min-height: 36px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <p class="brand">The Silk Empire</p>
+      <div id="topbar-actions" class="topbar-actions" hidden>
+        <span id="signed-in-email" class="signed-in"></span>
+        <button id="logout-button" class="button button-secondary" type="button">Sign out</button>
+      </div>
+    </header>
+
+    <section id="login-screen" class="panel login-panel" aria-labelledby="login-title">
+      <p class="eyebrow">Store management</p>
+      <h1 id="login-title">Admin sign in</h1>
+      <p>Sign in with an authorized store account to manage products.</p>
+      <form id="login-form">
+        <div class="field">
+          <label for="login-email">Email address</label>
+          <input id="login-email" name="email" type="email" autocomplete="username" required>
+        </div>
+        <div class="field">
+          <label for="login-password">Password</label>
+          <input id="login-password" name="password" type="password" autocomplete="current-password" required>
+        </div>
+        <button id="login-button" class="button full-width" type="submit">Sign in</button>
+        <p id="login-notice" class="notice" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section id="admin-screen" hidden aria-labelledby="dashboard-title">
+      <div>
+        <p class="eyebrow">Store management</p>
+        <h1 id="dashboard-title">Products</h1>
+        <p class="muted">Add new products or remove existing ones from your catalog.</p>
+      </div>
+
+      <div class="dashboard">
+        <section class="panel form-panel" aria-labelledby="add-product-title">
+          <p class="eyebrow">Catalog</p>
+          <h2 id="add-product-title">Add a product</h2>
+          <form id="product-form">
+            <div class="field">
+              <label for="product-title">Product title</label>
+              <input id="product-title" name="title" type="text" maxlength="120" required>
+            </div>
+            <div class="field">
+              <label for="product-price">Price</label>
+              <input id="product-price" name="price" type="number" min="0" step="0.01" inputmode="decimal" required>
+            </div>
+            <div class="field">
+              <label for="product-image-url">Image URL</label>
+              <input id="product-image-url" name="imageUrl" type="url" inputmode="url" placeholder="https://example.com/image.jpg" required>
+            </div>
+            <p class="helper">Use a publicly accessible image URL beginning with https://.</p>
+            <button id="add-product-button" class="button full-width" type="submit">Add product</button>
+            <p id="product-notice" class="notice" role="status" aria-live="polite"></p>
+          </form>
+        </section>
+
+        <section class="panel list-panel" aria-labelledby="product-list-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Your catalog</p>
+              <h2 id="product-list-title">All products</h2>
+            </div>
+            <span id="product-count" class="muted" aria-live="polite"></span>
+          </div>
+          <div id="product-list" class="product-list" aria-live="polite">
+            <p class="empty-state">Loading products…</p>
+          </div>
+          <p id="list-notice" class="notice" role="status" aria-live="polite"></p>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signInWithEmailAndPassword,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+    import {
+      addDoc,
+      collection,
+      deleteDoc,
+      doc,
+      getFirestore,
+      onSnapshot,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+    // Replace these values with the Firebase web app config from Firebase Console.
+    const firebaseConfig = {
+  apiKey: "AIzaSyBChoh6pml63_-cB3jpeLHG5OxjB6jtxHc",
+  authDomain: "the-silk-empire.firebaseapp.com",
+  projectId: "the-silk-empire",
+  storageBucket: "the-silk-empire.firebasestorage.app",
+  messagingSenderId: "990023610065",
+  appId: "1:990023610065:web:c4ac6368716b8187305ff0",
+  measurementId: "G-7FK171Q0B7"
+};
+   
+
+    // Use the exact email address(es) of accounts authorized to manage the store.
+    const ADMIN_EMAILS = ["smsameerbukhari@gmail.com", "razhai496@gmail.com"];
+    const PRODUCTS_COLLECTION = "products";
+
+    const loginScreen = document.querySelector("#login-screen");
+    const adminScreen = document.querySelector("#admin-screen");
+    const loginForm = document.querySelector("#login-form");
+    const loginButton = document.querySelector("#login-button");
+    const loginNotice = document.querySelector("#login-notice");
+    const topbarActions = document.querySelector("#topbar-actions");
+    const signedInEmail = document.querySelector("#signed-in-email");
+    const productForm = document.querySelector("#product-form");
+    const addProductButton = document.querySelector("#add-product-button");
+    const productNotice = document.querySelector("#product-notice");
+    const productList = document.querySelector("#product-list");
+    const productCount = document.querySelector("#product-count");
+    const listNotice = document.querySelector("#list-notice");
+
+    let auth;
+    let db;
+    let unsubscribeProducts;
+
+    function showNotice(element, message, kind = "error") {
+      element.textContent = message;
+      element.dataset.kind = kind;
+    }
+
+    function clearNotice(element) {
+      element.textContent = "";
+      delete element.dataset.kind;
+    }
+
+    function setBusy(button, busy, busyText, idleText) {
+      button.disabled = busy;
+      button.textContent = busy ? busyText : idleText;
+    }
+
+    function stopProductListener() {
+      if (unsubscribeProducts) {
+        unsubscribeProducts();
+        unsubscribeProducts = undefined;
+      }
+    }
+
+    function showLogin() {
+      stopProductListener();
+      adminScreen.hidden = true;
+      topbarActions.hidden = true;
+      loginScreen.hidden = false;
+    }
+
+    function createProductCard(productDocument) {
+      const product = productDocument.data();
+      const card = document.createElement("article");
+      card.className = "product-card";
+
+      const image = document.createElement("img");
+      image.className = "product-image";
+      image.alt = "";
+      image.loading = "lazy";
+      image.referrerPolicy = "no-referrer";
+      image.src = product.imageUrl;
+      image.addEventListener("error", () => {
+        image.removeAttribute("src");
+        image.alt = "Image unavailable";
+      }, { once: true });
+
+      const info = document.createElement("div");
+      info.className = "product-info";
+      const copy = document.createElement("div");
+      copy.className = "product-copy";
+
+      const title = document.createElement("p");
+      title.className = "product-title";
+      title.textContent = product.title || "Untitled product";
+
+      const price = document.createElement("p");
+      price.className = "product-price";
+      price.textContent = typeof product.price === "number"
+        ? new Intl.NumberFormat(undefined, { style: "decimal", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(product.price)
+        : "Price unavailable";
+
+      const deleteButton = document.createElement("button");
+      deleteButton.className = "button button-danger";
+      deleteButton.type = "button";
+      deleteButton.textContent = "Delete";
+      deleteButton.setAttribute("aria-label", `Delete ${product.title || "product"}`);
+      deleteButton.addEventListener("click", async () => {
+        if (!window.confirm(`Delete "${product.title || "this product"}"? This cannot be undone.`)) return;
+        deleteButton.disabled = true;
+        clearNotice(listNotice);
+        try {
+          await deleteDoc(doc(db, PRODUCTS_COLLECTION, productDocument.id));
+          showNotice(listNotice, "Product deleted.", "success");
+        } catch (error) {
+          console.error("Could not delete product:", error);
+          showNotice(listNotice, "Could not delete this product. Check your connection and Firestore permissions.");
+          deleteButton.disabled = false;
+        }
+      });
+
+      copy.append(title, price);
+      info.append(copy, deleteButton);
+      card.append(image, info);
+      return card;
+    }
+
+    function startProductListener() {
+      stopProductListener();
+      clearNotice(listNotice);
+      productList.replaceChildren();
+      const loading = document.createElement("p");
+      loading.className = "empty-state";
+      loading.textContent = "Loading products…";
+      productList.append(loading);
+
+      unsubscribeProducts = onSnapshot(
+        collection(db, PRODUCTS_COLLECTION),
+        (snapshot) => {
+          const products = [...snapshot.docs].sort((a, b) => {
+            const aTime = a.data().createdAt?.toMillis?.() ?? 0;
+            const bTime = b.data().createdAt?.toMillis?.() ?? 0;
+            return bTime - aTime;
+          });
+          productCount.textContent = `${products.length} ${products.length === 1 ? "item" : "items"}`;
+          productList.replaceChildren();
+
+          if (products.length === 0) {
+            const empty = document.createElement("p");
+            empty.className = "empty-state";
+            empty.textContent = "No products yet. Add your first product using the form.";
+            productList.append(empty);
+            return;
+          }
+
+          const fragment = document.createDocumentFragment();
+          for (const product of products) fragment.append(createProductCard(product));
+          productList.append(fragment);
+        },
+        (error) => {
+          console.error("Could not load products:", error);
+          productList.replaceChildren();
+          productCount.textContent = "";
+          showNotice(listNotice, "Could not load products. Check your connection and Firestore permissions.");
+        }
+      );
+    }
+
+    loginForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      clearNotice(loginNotice);
+      setBusy(loginButton, true, "Signing in…", "Sign in");
+
+      const formData = new FormData(loginForm);
+      const email = String(formData.get("email") || "").trim();
+      const password = String(formData.get("password") || "");
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+      } catch (error) {
+        console.error(error);
+        showNotice(loginNotice, error.message);
+      } finally {
+        setBusy(loginButton, false, "Signing in…", "Sign in");
+      }
+    });
+
+    document.querySelector("#logout-button").addEventListener("click", async () => {
+      try {
+        await signOut(auth);
+      } catch (error) {
+        console.error("Sign-out failed:", error);
+        showNotice(listNotice, "Could not sign out. Please try again.");
+      }
+    });
+
+    productForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      clearNotice(productNotice);
+
+      const formData = new FormData(productForm);
+      const title = String(formData.get("title") || "").trim();
+      const price = Number(formData.get("price"));
+      const imageUrl = String(formData.get("imageUrl") || "").trim();
+
+      let parsedImageUrl;
+      try {
+        parsedImageUrl = new URL(imageUrl);
+      } catch {
+        showNotice(productNotice, "Enter a valid image URL beginning with https://.");
+        return;
+      }
+
+      if (!title) {
+        showNotice(productNotice, "Enter a product title.");
+        return;
+      }
+      if (!Number.isFinite(price) || price < 0) {
+        showNotice(productNotice, "Enter a valid price of 0 or more.");
+        return;
+      }
+      if (parsedImageUrl.protocol !== "https:") {
+        showNotice(productNotice, "For safety, image URLs must use https://.");
+        return;
+      }
+
+      setBusy(addProductButton, true, "Adding…", "Add product");
+      try {
+        await addDoc(collection(db, PRODUCTS_COLLECTION), {
+          title,
+          price,
+          imageUrl: parsedImageUrl.href,
+          createdAt: serverTimestamp()
+        });
+        productForm.reset();
+        showNotice(productNotice, "Product added successfully.", "success");
+      } catch (error) {
+        console.error("Could not add product:", error);
+        showNotice(productNotice, "Could not add this product. Check your connection and Firestore permissions.");
+      } finally {
+        setBusy(addProductButton, false, "Adding…", "Add product");
+      }
+    });
+
+    try {
+      const app = initializeApp(firebaseConfig);
+      auth = getAuth(app);
+      db = getFirestore(app);
+
+      onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+          showLogin();
+          return;
+        }
+
+        const isAuthorized = ADMIN_EMAILS.some(
+          (adminEmail) => adminEmail.toLowerCase() === user.email?.toLowerCase()
+        );
+        if (!isAuthorized) {
+          showLogin();
+          try {
+            await signOut(auth);
+            showNotice(loginNotice, "This account is not authorized to access the admin dashboard.");
+          } catch (error) {
+            console.error("Could not sign out unauthorized user:", error);
+            showNotice(loginNotice, "This account is not authorized. Sign out and try an authorized account.");
+          }
+          return;
+        }
+
+        clearNotice(loginNotice);
+        loginScreen.hidden = true;
+        adminScreen.hidden = false;
+        topbarActions.hidden = false;
+        signedInEmail.textContent = user.email || "smsameerbukhari@gmail.com";
+        startProductListener();
+         loadAdminOrders();
+
+
+      }, (error) => {
+        console.error("Authentication state error:", error);
+        showLogin();
+        showNotice(loginNotice, "Could not verify your sign-in. Refresh the page or try again.");
+      });
+    } catch (error) {
+      console.error("Firebase initialization failed:", error);
+      showNotice(loginNotice, "Firebase setup is incomplete. Add your Firebase web app config to admin.html, then reload.");
+      loginButton.disabled = true;
+    }
+
+
+    function loadAdminOrders() {
+    const tableBody = document.getElementById("orders-table-body");
+    if (!tableBody) return;
+
+    onSnapshot(collection(db, "orders"), (snapshot) => {
+        tableBody.innerHTML = "";
+        
+        snapshot.forEach((docSnap) => {
+            const order = docSnap.data();
+            const orderId = docSnap.id;
+
+            tableBody.innerHTML += `
+                <tr>
+                    <td><strong>${orderId}</strong></td>
+                    <td>${order.customerName || ''}</td>
+                    <td>${order.phone || ''}</td>
+                    <td>${order.city || ''}</td>
+                    <td>PKR ${order.totalAmount || ''}</td>
+                    <td>
+                        <select onchange="updateOrderStatus('${orderId}', this.value)" style="background:#222; color:#fff; padding:5px; border:1px solid #c5a059;">
+                            <option value="Order Placed" ${order.status === 'Order Placed' ? 'selected' : ''}>Order Placed</option>
+                            <option value="Processing" ${order.status === 'Processing' ? 'selected' : ''}>Processing</option>
+                            <option value="Dispatched" ${order.status === 'Dispatched' ? 'selected' : ''}>Dispatched</option>
+                            <option value="Delivered" ${order.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                            <option value="Cancelled" ${order.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                        </select>
+                    </td>
+                </tr>
+            `;
+        });
+    });
+}
+
+window.updateOrderStatus = async function(orderId, newStatus) {
+    try {
+        await updateDoc(doc(db, "orders", orderId), {
+            status: newStatus
+        });
+        console.log("Status updated successfully!");
+    } catch (error) {
+        console.error("Error updating status: ", error);
+    }
+};
+
+  </script>
+</body>
+</html>
