@@ -39,6 +39,7 @@
     <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore-compat.js"></script>
+    <script id="lottie-web-script" src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js" async></script>
 
     <style>
         body {
@@ -49,6 +50,46 @@
         }
         .font-cinzel { font-family: 'Cinzel', serif; }
         .font-urdu { font-family: 'Noto Nastaliq Urdu', serif; }
+
+        #penguin-loader {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: grid;
+            place-items: center;
+            padding: 16px;
+            overflow: hidden;
+            background: #0d0d0d;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        #penguin-loader.is-active {
+            opacity: 1;
+            visibility: visible;
+        }
+        #penguin-loader.is-fading {
+            opacity: 0;
+            visibility: visible;
+            transition: opacity 450ms ease;
+        }
+        #penguin-loader.is-dismissed {
+            opacity: 0;
+            visibility: hidden;
+        }
+        #penguin-loader-content {
+            width: min(100%, 360px);
+            text-align: center;
+        }
+        #penguin-animation {
+            width: 100%;
+            aspect-ratio: 360 / 220;
+        }
+        #penguin-animation svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
@@ -121,6 +162,224 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-empire-gold selection:text-black">
 
+    <div id="penguin-loader" aria-hidden="true">
+        <div id="penguin-loader-content">
+            <div id="penguin-animation"></div>
+            <p class="font-cinzel text-lg font-bold tracking-widest gold-gradient-text">The Silk Empire</p>
+            <p class="mt-1 text-xs tracking-wide text-empire-lightGold">Switching on a little elegance</p>
+        </div>
+    </div>
+    <script>
+        (() => {
+            const loader = document.getElementById('penguin-loader');
+            const animationContainer = document.getElementById('penguin-animation');
+            const lottieScript = document.getElementById('lottie-web-script');
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            let animation = null;
+            let fallbackTimer = null;
+            let dismissed = false;
+
+            const dismissLoader = () => {
+                if (dismissed) return;
+                dismissed = true;
+                window.clearTimeout(fallbackTimer);
+                loader.classList.remove('is-active');
+                if (reduceMotion) {
+                    loader.classList.add('is-dismissed');
+                    if (animation) animation.destroy();
+                    return;
+                }
+
+                loader.classList.add('is-fading');
+                window.setTimeout(() => {
+                    loader.classList.remove('is-fading');
+                    loader.classList.add('is-dismissed');
+                    if (animation) animation.destroy();
+                }, 450);
+            };
+
+            if (reduceMotion) {
+                dismissLoader();
+            } else {
+                loader.classList.add('is-active');
+                fallbackTimer = window.setTimeout(dismissLoader, 2500);
+                if (document.readyState === 'complete') {
+                    dismissLoader();
+                } else {
+                    window.addEventListener('load', dismissLoader, { once: true });
+                }
+
+                const color = (red, green, blue) => [red / 255, green / 255, blue / 255, 1];
+                const property = (value) => ({ a: 0, k: value });
+                let shapeIndex = 0;
+
+                const group = (name, shape, fill, stroke = null, rotation = 0) => {
+                    const index = ++shapeIndex;
+                    const items = [
+                        { ty: shape.type, d: 1, s: property(shape.size), p: property(shape.position), nm: `${name} path`, hd: false }
+                    ];
+                    if (shape.radius !== undefined) items[0].r = property(shape.radius);
+                    items.push({ ty: 'fl', c: property(fill), o: property(100), r: 1, bm: 0, nm: `${name} fill`, hd: false });
+                    if (stroke) {
+                        items.push({
+                            ty: 'st',
+                            c: property(stroke.color),
+                            o: property(100),
+                            w: property(stroke.width),
+                            lc: 2,
+                            lj: 2,
+                            ml: 4,
+                            bm: 0,
+                            nm: `${name} outline`,
+                            hd: false
+                        });
+                    }
+                    items.push({
+                        ty: 'tr',
+                        p: property([0, 0, 0]),
+                        a: property([0, 0, 0]),
+                        s: property([100, 100, 100]),
+                        r: property(rotation),
+                        o: property(100),
+                        sk: property(0),
+                        sa: property(0),
+                        nm: 'Transform'
+                    });
+                    return { ty: 'gr', nm: name, np: items.length, cix: 2, bm: 0, ix: index, hd: false, it: items };
+                };
+
+                const ellipse = (name, x, y, width, height, fill, stroke = null, rotation = 0) =>
+                    group(name, { type: 'el', position: [x, y], size: [width, height] }, fill, stroke, rotation);
+                const roundedRect = (name, width, height, radius, fill, stroke = null) =>
+                    group(name, { type: 'rc', position: [0, 0], size: [width, height], radius }, fill, stroke);
+
+                const ease = { o: { x: [0.33], y: [0] }, i: { x: [0.67], y: [1] } };
+                const penguinShapes = [
+                    ellipse('Left pupil', -8, -42, 3, 5, color(13, 13, 13)),
+                    ellipse('Right pupil', 10, -42, 3, 5, color(13, 13, 13)),
+                    ellipse('Left eye', -9, -43, 8, 11, color(245, 240, 229)),
+                    ellipse('Right eye', 9, -43, 8, 11, color(245, 240, 229)),
+                    ellipse('Beak', 0, -33, 12, 8, color(191, 149, 63)),
+                    ellipse('White belly', 0, 9, 38, 51, color(245, 240, 229)),
+                    ellipse('Left flipper', -30, -1, 15, 39, color(39, 40, 42), { color: color(191, 149, 63), width: 2 }, 24),
+                    ellipse('Right flipper', 30, -1, 15, 39, color(39, 40, 42), { color: color(191, 149, 63), width: 2 }, -24),
+                    ellipse('Body', 0, 0, 57, 76, color(39, 40, 42), { color: color(191, 149, 63), width: 2 }),
+                    ellipse('Head', 0, -40, 43, 43, color(39, 40, 42), { color: color(191, 149, 63), width: 2 }),
+                    ellipse('Left foot', -14, 37, 25, 11, color(191, 149, 63)),
+                    ellipse('Right foot', 14, 37, 25, 11, color(191, 149, 63))
+                ];
+
+                const switchKnob = {
+                    ty: 'gr',
+                    nm: 'Moving light switch',
+                    np: 3,
+                    cix: 2,
+                    bm: 0,
+                    ix: ++shapeIndex,
+                    hd: false,
+                    it: [
+                        { ty: 'el', d: 1, s: property([25, 25]), p: {
+                            a: 1,
+                            k: [
+                                { t: 0, s: [0, 22], e: [0, 22], h: 1 },
+                                { t: 24, s: [0, 22], e: [0, -22], ...ease },
+                                { t: 29, s: [0, -22], e: [0, -22], h: 1 },
+                                { t: 48, s: [0, -22], e: [0, 22], ...ease },
+                                { t: 53, s: [0, 22] }
+                            ]
+                        }, nm: 'Switch knob path', hd: false },
+                        { ty: 'fl', c: property(color(191, 149, 63)), o: property(100), r: 1, bm: 0, nm: 'Switch knob fill', hd: false },
+                        { ty: 'tr', p: property([0, 0, 0]), a: property([0, 0, 0]), s: property([100, 100, 100]), r: property(0), o: property(100), sk: property(0), sa: property(0), nm: 'Transform' }
+                    ]
+                };
+
+                const animationData = {
+                    v: '5.12.2',
+                    fr: 30,
+                    ip: 0,
+                    op: 75,
+                    w: 360,
+                    h: 220,
+                    nm: 'Penguin switches on the light',
+                    ddd: 0,
+                    assets: [],
+                    layers: [
+                        {
+                            ddd: 0,
+                            ind: 1,
+                            ty: 4,
+                            nm: 'Light switch',
+                            sr: 1,
+                            ks: { o: property(100), r: property(0), p: property([282, 112, 0]), a: property([0, 0, 0]), s: property([100, 100, 100]) },
+                            ao: 0,
+                            shapes: [
+                                switchKnob,
+                                ellipse('Indicator light', 0, -34, 8, 8, color(252, 246, 186)),
+                                roundedRect('Switch plate', 58, 92, 12, color(28, 28, 29), { color: color(191, 149, 63), width: 3 })
+                            ],
+                            ip: 0,
+                            op: 75,
+                            st: 0,
+                            bm: 0
+                        },
+                        {
+                            ddd: 0,
+                            ind: 2,
+                            ty: 4,
+                            nm: 'Penguin',
+                            sr: 1,
+                            ks: {
+                                o: property(100),
+                                r: property(0),
+                                p: {
+                                    a: 1,
+                                    k: [
+                                        { t: 0, s: [72, 137, 0], e: [208, 137, 0], ...ease },
+                                        { t: 24, s: [208, 137, 0], e: [208, 137, 0], h: 1 },
+                                        { t: 44, s: [208, 137, 0], e: [72, 137, 0], ...ease },
+                                        { t: 74, s: [72, 137, 0] }
+                                    ]
+                                },
+                                a: property([0, 0, 0]),
+                                s: property([100, 100, 100])
+                            },
+                            ao: 0,
+                            shapes: penguinShapes,
+                            ip: 0,
+                            op: 75,
+                            st: 0,
+                            bm: 0
+                        }
+                    ]
+                };
+
+                const startAnimation = () => {
+                    if (dismissed || !window.lottie) return;
+                    try {
+                        animation = window.lottie.loadAnimation({
+                            container: animationContainer,
+                            renderer: 'svg',
+                            loop: true,
+                            autoplay: true,
+                            animationData
+                        });
+                        animation.addEventListener('data_failed', dismissLoader);
+                    } catch (error) {
+                        console.error('Could not start the penguin preloader animation:', error);
+                        dismissLoader();
+                    }
+                };
+
+                if (window.lottie) {
+                    startAnimation();
+                } else {
+                    lottieScript.addEventListener('load', startAnimation, { once: true });
+                    lottieScript.addEventListener('error', dismissLoader, { once: true });
+                }
+            }
+        })();
+    </script>
+
     <!-- TOP NAVIGATION BAR -->
     <header class="sticky top-0 z-40 glass-panel border-b border-empire-gold/20 px-4 lg:px-8 py-3 transition-all duration-300">
         <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-y-3">
@@ -188,7 +447,7 @@
 
                         <!-- profile pic he ye  -->
 
-<img src="Gemini_Generated_Image_dx7lrtdx7lrtdx7l.jpg" alt="Logo" class="w-full h-full object-cover rounded-full transition-transform duration-1000 hover:rotate-[360deg]">
+<img src="Gemini_Generated_Image_dx7lrtdx7lrtdx7l.jpg" alt="The Silk Empire emblem" class="w-full h-full object-cover rounded-full transition-transform duration-1000 hover:rotate-[360deg]">
 
 </div>
                 </div>
@@ -722,6 +981,14 @@
             }
             orders = [];
             adminAuthorized = false;
+            document.getElementById('admin-orders-tbody').replaceChildren();
+            document.getElementById('admin-orders-empty').classList.add('hidden');
+            document.getElementById('admin-current-user').textContent = '';
+            document.getElementById('stat-total-revenue').textContent = 'PKR 0';
+            document.getElementById('stat-total-orders').textContent = '0';
+            document.getElementById('stat-active-orders').textContent = '0';
+            document.getElementById('stat-delivered-orders').textContent = '0';
+            document.getElementById('stat-cancelled-orders').textContent = '0';
         }
 
         async function handleAuthStateChange(user) {
@@ -1324,7 +1591,10 @@
                 return;
             }
             if (!['Pending', 'Packed', 'Dispatched', 'Delivered', 'Cancelled'].includes(newStatus)) {
-                throw new Error('Unsupported order status.');
+                const message = document.getElementById('admin-data-error');
+                message.textContent = 'The selected order status is not valid.';
+                message.classList.remove('hidden');
+                return;
             }
             try {
                 const appId = 'silk-empire-default';

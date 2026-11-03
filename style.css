@@ -3,10 +3,7 @@
    ==================================================== */
 
 * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif;
 }
 
 .logo-pic {
@@ -798,8 +795,8 @@ body {
         padding: 10px;
     }
 
-    .product-card img {
-        height: 200px; /* Mobile par image ki height set rakhne ke liye */
+    #products-container .product-card img {
+        height: 100%;
         object-fit: cover;
     }
 
